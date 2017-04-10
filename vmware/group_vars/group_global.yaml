@@ -1,0 +1,7 @@
+---
+
+esxi_hostname: IP goes here
+esxi_username: USER goes here
+esxi_password: PASSWORD goes here
+vsphere_dc_name: 
+ansible_ssh_host: 
