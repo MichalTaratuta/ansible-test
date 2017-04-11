@@ -6,7 +6,7 @@
       username: "{{ esxi_username }}"
       password: "{{ esxi_password }}"
       switch_name: "{{ vswitch_number}}"
-      portgroup_name: Management
+      portgroup_name: "{{ vportgroup_name }}"   # Name of the Interface
       vlan_id: 0
       validate_certs: False
       network_policy:

@@ -1,7 +1,9 @@
 ---
 
-esxi_hostname: IP goes here
-esxi_username: USER goes here
+esxi_hostname: lab01vcc01.oc.lab
+esxi_username: root
 esxi_password: PASSWORD goes here
 vsphere_dc_name: 
-ansible_ssh_host: 
+vsphere_hostname:
+vsphere_username:
+vsphere_password:
