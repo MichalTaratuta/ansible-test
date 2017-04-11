@@ -1,0 +1,15 @@
+---
+  - name: Create dvswitch
+    local_action:
+      module: vmware_dvswitch
+      hostname: "{{ vsphere_hostname }}"
+      username: "{{ vsphere_username}}"
+      password: "{{ vsphere_password }}"
+      datacenter_name: "{{ vsphere_dc_name }}"
+      switch_name: dvSwitch-DVUplinks-216 #
+      mtu: 1500
+      uplink_quantity: 2
+      discovery_proto: cdp
+      discovery_operation: listen
+      state: present
+      validate_certs: False
