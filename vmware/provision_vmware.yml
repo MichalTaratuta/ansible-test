@@ -1,0 +1,10 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  any_errors_fatal: True
+  roles:
+    - vmware_create_dc
+    - vmware_create_cluster
+    - vmware_add_esxi
+    - vmware_add_vswitch
+    - vmware_add_portgroup

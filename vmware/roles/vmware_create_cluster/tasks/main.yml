@@ -1,16 +1,11 @@
 ---
-
-- hosts: 127.0.0.1
-  connection: local
-  any_errors_fatal: True
-
-  tasks:
-  - name: Create DC
+  - name: Create Cluster
     local_action:
-      module: vmware_datacenter
+      module: vmware_cluster
       hostname: "{{ vsphere_hostname }}"
       username: "{{ vsphere_username}}"
       password: "{{ vsphere_password }}"
       datacenter_name: "{{ vsphere_dc_name }}"
-      validate_certs: False
-      state: present
+      cluster_name: "{{ vshpere_cluster_name }}"
+      enable_ha: True
+      enable_drs: True

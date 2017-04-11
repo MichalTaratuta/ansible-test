@@ -1,0 +1,13 @@
+---
+  - name: Create vswitch
+    local_action:
+      module: vmware_vswitch
+      state: present
+      hostname: "{{ esxi_hostname }}"
+      username: "{{ esxi_username }}"
+      password: "{{ esxi_password }}"
+      switch_name: "{{ vswitch_number}}"
+      nic_name: "{{ vmnic_name }}"
+      mtu: 1500
+      validate_certs: False
+          

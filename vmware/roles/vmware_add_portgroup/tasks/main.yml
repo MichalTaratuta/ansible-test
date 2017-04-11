@@ -1,0 +1,15 @@
+---
+  - name: Create Vmware Port Groups
+    local_action:
+      module: vmware_portgroup
+      hostname: "{{ esxi_hostname }}"
+      username: "{{ esxi_username }}"
+      password: "{{ esxi_password }}"
+      switch_name: "{{ vswitch_number}}"
+      portgroup_name: Management
+      vlan_id: 0
+      validate_certs: False
+      network_policy:
+        promiscuous_mode: False
+        forged_transmits: False
+        mac_changes: False
