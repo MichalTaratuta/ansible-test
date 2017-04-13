@@ -1,11 +1,16 @@
 ---
-  - name: Create Cluster
+  - name: "Create Cluster: {{ item.1 }}"
     local_action:
       module: vmware_cluster
       hostname: "{{ vsphere_hostname }}"
       username: "{{ vsphere_username}}"
       password: "{{ vsphere_password }}"
-      datacenter_name: "{{ vsphere_dc_name }}"
-      cluster_name: "{{ vshpere_cluster_name }}"
-      enable_ha: True
-      enable_drs: True
+      datacenter_name: "{{ item.0 }}"
+      cluster_name: "{{ item.1 }}"
+      enable_ha: "{{ item.3.ha }}"    # Default True
+      enable_drs: "{{ item.4.drs }}"  # Default True
+      with_nested:
+        - "{{ vsphere_dc_name }}"
+        - "{{ vshpere_cluster_name }}"
+        - "{{ cluster_ha_setting }}"
+        - "{{ cluster_drs_setting }}"

@@ -1,0 +1,11 @@
+---
+# Variables used by vmware_create_cluster they will be overwritten by play-book so they can be empty
+vsphere_hostname: []
+vsphere_username: []
+vsphere_password: []
+vsphere_dc_name: []
+vshpere_cluster_name: []
+cluster_ha_setting:
+  - ha: True
+cluster_drs_setting:
+  - drs: True
