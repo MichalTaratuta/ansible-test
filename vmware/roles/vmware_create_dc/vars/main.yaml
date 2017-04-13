@@ -1,0 +1,6 @@
+---
+# Variables used by vmware_create_dc they will be overwritten by play-book so they can be empty
+vsphere_hostname: []
+vsphere_username: []
+vsphere_password: []
+vsphere_dc_name: []
