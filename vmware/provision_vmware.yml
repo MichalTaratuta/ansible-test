@@ -18,9 +18,42 @@
 - hosts: 127.0.0.1
   connection: local
   any_errors_fatal: True
+
+  vars:
+    vsphere_hostname: []
+    vsphere_username: []
+    vsphere_password: []
+    vsphere_dc_name: Provision_DC
+    vshpere_cluster_name: Provision_Cluster
+    cluster_ha_setting:
+      - ha: True
+    cluster_drs_setting:
+      - drs: True
+    esxi_hostname:
+      - 192.168.1.56
+      - 192.168.1.55
+    esxi_username: root
+    esxi_password: []
+    vportgroup_name: []
+    option_promiscuous_mode: False
+    option_forged_transmits: False
+    option_mac_changes: False
+
   roles:
     - vmware_create_dc
     - vmware_create_cluster
     - vmware_add_esxi
-    - vmware_add_vswitch
-    - vmware_add_portgroup
+    - { role: vmware_add_vswitch,
+          vswitch_number: 'vSwitch0',
+          vmnic_name: [
+            'vmnic0',
+            'vmanic1'
+          ]
+      }
+    - { role: vmware_add_vswitch,
+          vswitch_number: 'vSwitch2',
+          vmnic_name: [
+            'vmnic4',
+            'vmnic5'
+          ]
+      }
