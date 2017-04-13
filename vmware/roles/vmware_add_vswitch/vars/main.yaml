@@ -1,0 +1,8 @@
+---
+ # Variables used by vmware_add_vswitch they will be overwritten by play-book so they can be empty
+esxi_hostname: []
+esxi_username: []
+esxi_password: []
+vswitch_number: []
+vmnic_name: []
+vswitch_mtu: 1500
