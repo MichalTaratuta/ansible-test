@@ -1,15 +1,22 @@
 ---
-  - name: Create Vmware Port Groups
+  - name: "Create Vmware Port Group: {{ item.0 }}"
     local_action:
       module: vmware_portgroup
-      hostname: "{{ esxi_hostname }}"
+      hostname: "{{ item.2 }}"
       username: "{{ esxi_username }}"
       password: "{{ esxi_password }}"
-      switch_name: "{{ vswitch_number}}"
-      portgroup_name: "{{ vportgroup_name }}"   # Name of the Interface
+      switch_name: "{{ item.1 }}"         # Name of the vSwitch
+      portgroup_name: "{{ item.0 }}"      # Name of the Interface
       vlan_id: 0
       validate_certs: False
       network_policy:
-        promiscuous_mode: False
-        forged_transmits: False
-        mac_changes: False
+        promiscuous_mode: "{{ item.3 }}"  # Default: False
+        forged_transmits: "{{ item.4 }}"  # Default: False
+        mac_changes: "{{ item.5 }}"       # Default: False
+      with_nested:
+        - "{{ vportgroup_name }}"
+        - "{{ vswitch_number }}"
+        - "{{ esxi_hostname }}"
+        - "{{ option_promiscuous_mode }}"
+        - "{{ option_forged_transmits }}"
+        - "{{ option_mac_changes }}"
