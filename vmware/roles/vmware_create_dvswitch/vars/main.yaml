@@ -1,0 +1,11 @@
+---
+# Variables used by vmware_create_dvswitch they will be overwritten by play-book so they can be empty
+vsphere_hostname: []
+vsphere_username: []
+vsphere_password: []
+dvswitch_name: []
+vsphere_dc_name: []
+dvswitch_mtu: 1500
+dvswitch_uplink_quantity: []
+dvswitch_discovery_proto: cdp 
+dvswitch_discovery_operation: listen

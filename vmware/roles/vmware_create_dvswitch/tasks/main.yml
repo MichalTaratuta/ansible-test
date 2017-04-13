@@ -1,15 +1,22 @@
 ---
-  - name: Create dvswitch
+  - name: "Create dvswitch: {{ item.0 }}"
     local_action:
       module: vmware_dvswitch
       hostname: "{{ vsphere_hostname }}"
       username: "{{ vsphere_username}}"
       password: "{{ vsphere_password }}"
-      datacenter_name: "{{ vsphere_dc_name }}"
-      switch_name: dvSwitch-DVUplinks-216 #
-      mtu: 1500
-      uplink_quantity: 2
-      discovery_proto: cdp
-      discovery_operation: listen
+      datacenter_name: "{{ item.1 }}"
+      switch_name: "{{ item.0 }}"
+      mtu: "{{ item.2 }}"                 # Default: 1500
+      uplink_quantity: "{{ item.3 }}"
+      discovery_proto: "{{ item.4 }}"     # Default: cdp
+      discovery_operation: "{{ item.5 }}" # Default: listen
       state: present
       validate_certs: False
+      with_nested:
+        - "{{ dvswitch_name }}"
+        - "{{ vsphere_dc_name }}"
+        - "{{ dvswitch_mtu }}"
+        - "{{ dvswitch_uplink_quantity }}"
+        - "{{ dvswitch_discovery_proto }}"
+        - "{{ dvswitch_discovery_operation }}"
