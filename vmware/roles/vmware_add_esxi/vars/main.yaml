@@ -1,0 +1,10 @@
+---
+# Variables used by vmware_add_esxi they will be overwritten by play-book so they can be empty
+vsphere_hostname: []
+vsphere_username: []
+vsphere_password: []
+esxi_username: []
+esxi_password: []
+esxi_hostname: []
+vsphere_dc_name: []
+vshpere_cluster_name: []
