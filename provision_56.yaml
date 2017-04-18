@@ -24,6 +24,11 @@
           63353035356239656661613236663963643735643430666664653732333931663731323431663737
           3135646638353334310a643639306665646466623034656336626565613862313764393533303037
           6166
+      dvswitch_name: lab01vcc01
+      dvswitch_portgroup:
+        - CSC_Heartbeat
+        - CSC_Management
+
       vswitch_number: vSwitch0
       #vmnic_name:
 
@@ -121,17 +126,51 @@
           forged_transmits: False
           mac_changes: False
 
-    - name: Connect to dvswitch
+    - name: "Create dvswitch"
+      local_action:
+        module: vmware_dvswitch
+        hostname: "{{ vsphere_hostname }}"
+        username: "{{ vsphere_username}}"
+        password: "{{ vsphere_password }}"
+        datacenter_name: "{{ item.1 }}"
+        switch_name: "{{ item.0 }}"
+        mtu: 1500                 # Default: 1500
+        uplink_quantity: 2
+        discovery_proto: cdp     # Default: cdp
+        discovery_operation: listen # Default: listen
+        state: present
+        validate_certs: False
+      with_nested:
+        - "{{ dvswitch_name }}"
+        - "{{ vsphere_dc_name }}"
+
+    - name: Dvswitch portgroup
       local_action:
         module: vmware_dvs_portgroup
         hostname: "{{ vsphere_hostname }}"
         username: "{{ vsphere_username}}"
         password: "{{ vsphere_password }}"
-        portgroup_name: dvSwitch-DVUplinks-216
-        switch_name: dvSwitch-DVUplinks-216
+        portgroup_name: "{{ item }}"
+        switch_name: "{{ dvswitch_name }}"
         vlan_id: 0
         num_ports: 14
         portgroup_type: earlyBinding
+        state: present
+        validate_certs: False
+      with_items:
+        - "{{ dvswitch_portgroup }}"
+
+    - name: Add Host to dvswitch
+      local_action:
+        module: vmware_dvs_host
+        hostname: "{{ vsphere_hostname }}"
+        username: "{{ vsphere_username}}"
+        password: "{{ vsphere_password }}"
+        esxi_hostname: "{{ esxi_hostname }}"
+        switch_name: "{{ dvswitch_name }}"
+        vmnics:
+            - vmnic0
+            - vmnic1
         state: present
         validate_certs: False
 
