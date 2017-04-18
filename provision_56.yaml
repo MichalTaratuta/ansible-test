@@ -66,7 +66,7 @@
         enable_ha: True
         enable_drs: True
 
-    - name: "Add ESXi: {{ esxi_hostname }} to vSphere"
+    - name: Add ESXi to vSphere
       local_action:
         module: vmware_host
         state: present
@@ -75,10 +75,12 @@
         password: "{{ vsphere_password }}"
         datacenter_name: "{{ vsphere_dc_name }}"
         cluster_name: "{{ vshpere_cluster_name }}"
-        esxi_hostname: "{{ esxi_hostname }}"
+        esxi_hostname: "{{item}}"
         esxi_username: "{{ esxi_username }}"
         esxi_password: "{{ esxi_password }}"
         validate_certs: False
+      with_items:
+        - "{{ esxi_hosts }}"
 
     - name: "Create vswitch: {{ vswitch_number}}"
       local_action:
