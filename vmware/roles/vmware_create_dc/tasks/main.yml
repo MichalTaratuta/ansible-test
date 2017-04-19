@@ -1,5 +1,5 @@
 ---
-  - name: "Create DC: {{ item }}"
+  - name: Create DC
     local_action:
       module: vmware_datacenter
       hostname: "{{ vsphere_hostname }}"
