@@ -199,3 +199,7 @@
       command: govc host.option.set -dc "{{ vsphere_dc_name }}" -host "{{ item }}" Power.CpuPolicy "High Performance"
       with_items:
         - "{{ esxi_hosts }}"
+
+  # Configure PSP Settings
+    - name: PSP Configuration
+      command: esxcli storage nmp satp set --default-psp=VMW_PSP_RR --satp=VMW_SATP_ALUA 
