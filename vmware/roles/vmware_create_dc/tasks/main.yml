@@ -1,4 +1,5 @@
 ---
+  # Create DC accepts more then one DC names so we can create multiple DC's in one go
   - name: Create DC
     local_action:
       module: vmware_datacenter
