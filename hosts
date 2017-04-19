@@ -5,3 +5,6 @@
 
 [vcenter_oc_lab]
 lab01vcc01.oc.lab
+
+[esxi]
+192.168.1.5[5:6]
