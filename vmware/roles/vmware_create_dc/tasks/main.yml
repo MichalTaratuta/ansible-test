@@ -8,5 +8,5 @@
       datacenter_name: "{{ item }}"
       validate_certs: False
       state: present
-      with_items:
-        - "{{ vsphere_dc_name }}"
+    with_items:
+      - "{{ vsphere_dc_name }}"
