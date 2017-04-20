@@ -1,5 +1,5 @@
 ---
-  - name: "Create vSwitch: {{ item.0}}"
+  - name: Create vSwitch
     local_action:
       module: vmware_vswitch
       state: present
@@ -8,9 +8,9 @@
       password: "{{ esxi_password }}"
       switch_name: "{{ item.0}}"
       nic_name: "{{ item.1 }}"
-      mtu: "{{ ietm.2 }}"   #Default:1500
+      mtu: "{{ item.2 }}"   #Default:1500
       validate_certs: False
-      with_nested:
-        - "{{ vswitch_number}}"
-        - "{{ vmnic_name }}"
-        - "{{ vswitch_mtu }}"
+    with_nested:
+      - "{{ vswitch_number}}"
+      - "{{ vmnic_name }}"
+      - "{{ vswitch_mtu }}"
