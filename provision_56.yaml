@@ -47,6 +47,13 @@
           value: 4
         - option: Disk.MaxLUN
           value: 255
+      # Variable for vSwitch workaround
+      esx_vswitch_ports:
+        - vswitch_number: vSwitch0
+          nics: vmnic1
+        - vswitch_number: vSwitch1
+          nics: vmnic3
+
 
   tasks:
     - name: "Create DC: {{ vsphere_dc_name }}"
@@ -110,6 +117,8 @@
         nic_name: vmnic3
         mtu: 1500
         validate_certs: False
+      with_items:
+        - "{{ vswitch_number}}"
 
     - name: Create Vmware Port Groups
       local_action:
@@ -202,6 +211,58 @@
 
 # This needs to run on the remote esxi hosts thus it's separated from the rest of play
 - hosts: esxi
+
+  vars:
+    - vsphere_hostname: lab01vcc01.oc.lab
+      vsphere_username: ad_michal@oc.lab
+      vsphere_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          36316664373066313937353664366365383030633861633463663361356234646538353731333937
+          3938636236353534306563353064623966646663643161620a353439633836313231323234663032
+          63623235306537303730663035373535353638393537393163653161383233343466656337396665
+          3361336638646336370a663533323932366162643230363164336432383733343536303734326161
+          3034
+      vsphere_dc_name: Ansible_DC
+      vshpere_cluster_name: Ansible_Cluster
+      esxi_hostname: 192.168.1.56
+      esxi_username: root
+      esxi_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          65323239646535356565336463363937346238373231643535623734636664343362653739353066
+          3066383431323137343535323561333537636631366166390a303365353437303064626366616165
+          63353035356239656661613236663963643735643430666664653732333931663731323431663737
+          3135646638353334310a643639306665646466623034656336626565613862313764393533303037
+          6166
+      dvswitch_name: lab01vcc01
+      dvswitch_portgroup:
+        - CSC_Heartbeat
+        - CSC_Management
+
+      vswitch_number: vSwitch0
+      #vmnic_name:
+
+      # List of ntp servers, HAS TO BE in HORIZONTAL format:
+      esxi_ntp_servers: 0.vmware.pool.ntp.org, 1.vmware.pool.ntp.org, 2.vmware.pool.ntp.org
+
+      # List for govc loop:
+      esxi_hosts:
+        - 192.168.1.56
+        - 192.168.1.55
+      # List for GOVC Nested loop
+      esxi_advanced_settings:
+        - option: Disk.QFullSampleSize
+          value: 32
+        - option: Disk.QFullThreshold
+          value: 4
+        - option: Disk.MaxLUN
+          value: 255
+      # Variable for vSwitch workaround
+      esx_vswitch_ports:
+        - vswitch_number: vSwitch0
+          nics: vmnic1
+        - vswitch_number: vSwitch1
+          nics: vmnic3
+
   tasks:
 
   # Get PSP Setting and export it as viariable psp_value
