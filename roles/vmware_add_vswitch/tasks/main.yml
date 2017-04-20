@@ -6,10 +6,9 @@
       hostname: "{{ esxi_hostname }}"
       username: "{{ esxi_username }}"
       password: "{{ esxi_password }}"
-      switch_name: "{{ item.0.vswitch_number}}"
-      nic_name: "{{ item.0.nics }}"
-      mtu: "{{ item.1 }}"   #Default:1500
+      switch_name: "{{ item.vswitch_number}}"
+      nic_name: "{{ item.vswitch_vmnics }}"
+      mtu: "{{ item.vswitch_mtu }}"   #Default:1500
       validate_certs: False
-    with_nested:
-      - "{{esx_vswitch_ports}}"
-      - "{{ vswitch_mtu }}"
+    with_items:
+      - "{{esx_vswitch}}"

@@ -3,13 +3,7 @@
 esxi_hostname: []
 esxi_username: []
 esxi_password: []
-vswitch_number: []
-vmnic_name: []
-vswitch_mtu: 1500
 esx_vswitch:
   - vswitch_number: []
-    vswitch_vmnics:
-      - []
-  - vswitch_number: []
-    vswitch_vmnics:
-      - []
+    vswitch_vmnics: []
+    vswitch_mtu: 1500
