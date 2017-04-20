@@ -3,6 +3,11 @@
 esxi_hostname: []
 esxi_username: []
 esxi_password: []
-vswitch_number: []
-vmnic_name: []
-vswitch_mtu: 1500
+esx_vswitch:
+  - vswitch_number: []
+    vswitch_vmnics: []
+    vswitch_portgroup_name: []
+    vswitch_vlan: []
+    vswitch_option_promiscuous_mode: False
+    vswitch_option_forged_transmits: False
+    vswitch_option_mac_changes: False

@@ -43,4 +43,3 @@ cluster_ha_setting:
   - ha: True
 cluster_drs_setting:
   - drs: True
-vswitch_mtu: 1500
