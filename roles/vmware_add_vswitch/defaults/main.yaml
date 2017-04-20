@@ -6,12 +6,10 @@ esxi_password: []
 vswitch_number: []
 vmnic_name: []
 vswitch_mtu: 1500
-esx_vswitch_ports:
+esx_vswitch:
   - vswitch_number: []
-    nics:
-      - []
+    vswitch_vmnics:
       - []
   - vswitch_number: []
-    nics:
-      - []
+    vswitch_vmnics:
       - []

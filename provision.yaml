@@ -4,11 +4,11 @@
   #any_errors_fatal: True
 
   vars:
-    - esx_vswitch_ports:
+    - esx_vswitch:
         - vswitch_number: vSwitch0
-          nics: vmnic0
+          vswitch_vmnics: vmnic0
         - vswitch_number: vSwitch2
-          nics: vmnic2
+          vswitch_vmnics: vmnic2
 
   roles:
     #- { role: vmware_create_dc, item: "{{ vsphere_dc_name }}" }
@@ -38,30 +38,32 @@
 
 - hosts: 192.168.1.55
   vars:
-    - esx_vswitch_ports:
+    - esx_vswitch:
         - vswitch_number: vSwitch0
-          nics: vmnic1
+          vswitch_vmnics: vmnic1
         - vswitch_number: vSwitch2
-          nics: vmnic3
+          vswitch_vmnics: vmnic3
   tasks:
 
     - name: Add VMNIC
-      shell: "esxcli network vswitch standard uplink add --uplink-name={{ item.0.nics }} --vswitch-name={{ item.0.vswitch_number }} > /.created.{{ item.0.vswitch_number }}.{{ item.0.nics }}"
+      shell: "esxcli network vswitch standard uplink add --uplink-name={{ item.0.vswitch_vmnics }} --vswitch-name={{ item.0.vswitch_number }} > /.created.{{ item.0.vswitch_number }}.{{ item.0.vswitch_vmnics }}"
       args:
         chdir: /
-        creates: ".created.{{ item.0.vswitch_number }}.{{ item.0.nics }}"
+        creates: ".created.{{ item.0.vswitch_number }}.{{ item.0.vswitch_vmnics }}"
       with_nested:
-        - "{{esx_vswitch_ports}}"
+        - "{{esx_vswitch}}"
         - "{{ vswitch_mtu }}"
 
 - hosts: 127.0.0.1
   connection: local
   vars:
-    - esx_vswitch_ports:
+    - esx_vswitch:
         - vswitch_number: vSwitch0
-          nics: vmnic1
+          vswitch_vmnics: vmnic1
         - vswitch_number: vSwitch2
-          nics: vmnic3
+          vswitch_vmnics: vmnic3
+      esx_portgroups:
+
 
   tasks:
     - name: Create Vmware Port Groups
@@ -78,4 +80,4 @@
           promiscuous_mode: False
           forged_transmits: False
       with_items:
-        - "{{esx_vswitch_ports}}"
+        - "{{ esx_vswitch }}"

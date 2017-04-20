@@ -48,11 +48,11 @@
         - option: Disk.MaxLUN
           value: 255
       # Variable for vSwitch workaround
-      esx_vswitch_ports:
+      esx_vswitch:
         - vswitch_number: vSwitch0
-          nics: vmnic1
+          vswitch_vmnics: vmnic1
         - vswitch_number: vSwitch1
-          nics: vmnic3
+          vswitch_vmnics: vmnic3
 
 
   tasks:
@@ -257,11 +257,11 @@
         - option: Disk.MaxLUN
           value: 255
       # Variable for vSwitch workaround
-      esx_vswitch_ports:
+      esx_vswitch:
         - vswitch_number: vSwitch0
-          nics: vmnic1
+          vswitch_vmnics: vmnic1
         - vswitch_number: vSwitch1
-          nics: vmnic3
+          vswitch_vmnics: vmnic3
 
   tasks:
 

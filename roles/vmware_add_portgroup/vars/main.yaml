@@ -2,9 +2,12 @@
 # Variables used by vmware_add_portgroup they will be overwritten by play-book so they can be empty
 esxi_username: []
 esxi_password: []
-vportgroup_name: []
-vswitch_number: []
 esxi_hostname: []
-option_promiscuous_mode: False
-option_forged_transmits: False
-option_mac_changes: False
+esx_vswitch:
+  - vswitch_number: []
+    vswitch_vmnics: []
+    vswitch_portgroup_name: []
+    vswitch_vlan: []
+    vswitch_option_promiscuous_mode: False
+    vswitch_option_forged_transmits: False
+    vswitch_option_mac_changes: False
