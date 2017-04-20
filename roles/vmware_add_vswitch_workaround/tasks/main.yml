@@ -1,0 +1,13 @@
+---
+# Workaround to add second vmnic to the vSwitch since it's not supported by the vmware_vswitch module.
+# For this to work we need to create a vSwitch using the vmware_vswitch module with just one vmnic and then run this module to add secondary vmnic.
+# the nics variable need to be a horizontal list rather theun the vertical
+  - name: Add VMNIC
+    shell: "esxcli network vswitch standard uplink add --uplink-name={{ item.0.nics }} --vswitch-name={{ item.0.vswitch_number }} > /.created.{{ item.0.vswitch_number }}.{{ item.0.nics }}"
+      args:
+        chdir: /
+        creates: ".created.{{ item.0.vswitch_number }}.{{ item.0.nics }}"
+    with_nested:
+      - "{{esx_vswitch_ports}}"
+      - "{{ vswitch_mtu }}"
+
