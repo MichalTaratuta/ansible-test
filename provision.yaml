@@ -1,0 +1,81 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  #any_errors_fatal: True
+
+  vars:
+    - esx_vswitch_ports:
+        - vswitch_number: vSwitch0
+          nics: vmnic0
+        - vswitch_number: vSwitch2
+          nics: vmnic2
+
+  roles:
+    #- { role: vmware_create_dc, item: "{{ vsphere_dc_name }}" }
+    - vmware_create_dc
+    - vmware_create_cluster
+    #- vmware_add_esxi
+    - vmware_add_vswitch
+  tasks:
+    - name: "Add ESXi to vSphere"
+      local_action:
+        module: vmware_host
+        state: present
+        hostname: "{{ vsphere_hostname }}"
+        username: "{{ vsphere_username}}"
+        password: "{{ vsphere_password }}"
+        datacenter_name: "{{ item.1 }}"
+        cluster_name: "{{ item.2 }}"
+        esxi_hostname: "{{ item.0 }}"
+        esxi_username: "{{ esxi_username }}"
+        esxi_password: "{{ esxi_password }}"
+        validate_certs: False
+      with_nested:
+        - "{{ esxi_hostname }}"
+        - "{{ vsphere_dc_name }}"
+        - "{{ vshpere_cluster_name }}"
+
+
+- hosts: 192.168.1.55
+  vars:
+    - esx_vswitch_ports:
+        - vswitch_number: vSwitch0
+          nics: vmnic1
+        - vswitch_number: vSwitch2
+          nics: vmnic3
+  tasks:
+
+    - name: Add VMNIC
+      shell: "esxcli network vswitch standard uplink add --uplink-name={{ item.0.nics }} --vswitch-name={{ item.0.vswitch_number }} > /.created.{{ item.0.vswitch_number }}.{{ item.0.nics }}"
+      args:
+        chdir: /
+        creates: ".created.{{ item.0.vswitch_number }}.{{ item.0.nics }}"
+      with_nested:
+        - "{{esx_vswitch_ports}}"
+        - "{{ vswitch_mtu }}"
+
+- hosts: 127.0.0.1
+  connection: local
+  vars:
+    - esx_vswitch_ports:
+        - vswitch_number: vSwitch0
+          nics: vmnic1
+        - vswitch_number: vSwitch2
+          nics: vmnic3
+
+  tasks:
+    - name: Create Vmware Port Groups
+      local_action:
+        module: vmware_portgroup
+        hostname: "{{ esxi_hostname }}"
+        username: "{{ esxi_username }}"
+        password: "{{ esxi_password }}"
+        switch_name: "{{ item.vswitch_number }}"
+        portgroup_name: "Portgroup {{ item.vswitch_number }}"  # Name of the Interface
+        vlan_id: 0
+        validate_certs: False
+        network_policy:
+          promiscuous_mode: False
+          forged_transmits: False
+      with_items:
+        - "{{esx_vswitch_ports}}"
