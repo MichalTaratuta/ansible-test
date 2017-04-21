@@ -13,14 +13,6 @@
           vswitch_option_promiscuous_mode: False
           vswitch_option_forged_transmits: False
           vswitch_option_mac_changes: False
-        - vswitch_number: vSwitch2
-          vswitch_portgroup_name: "portgroup_name vSwitch2"
-          vswitch_vmnics: vmnic2
-          vswitch_mtu: 1500
-          vswitch_vlan_id: 0
-          vswitch_option_promiscuous_mode: False
-          vswitch_option_forged_transmits: False
-          vswitch_option_mac_changes: False
 
   roles:
     #- { role: vmware_create_dc, item: "{{ vsphere_dc_name }}" }
@@ -49,6 +41,53 @@
         - "{{ vsphere_dc_name }}"
         - "{{ vshpere_cluster_name }}"
 
+    - name: "Create dvswitch: "
+      local_action:
+        module: vmware_dvswitch
+        hostname: "{{ vsphere_hostname }}"
+        username: "{{ vsphere_username}}"
+        password: "{{ vsphere_password }}"
+        datacenter_name: "{{ item.0 }}"
+        switch_name: "{{ item.1 }}"
+        mtu: "{{ dvswitch_mtu }}"                 # Default: 1500
+        uplink_quantity: "{{ dvswitch_uplink_quantity }}"  # Default: 2
+        discovery_proto: "{{ dvswitch_discovery_proto }}"     # Although the module require it, the default for vCenter is CDP thus set as Default: cdp
+        discovery_operation: "{{ dvswitch_discovery_operation }}" # Although the module require it, the default for vCenter is Listen thus set as Default: listen
+        state: present
+        validate_certs: False
+      with_nested:
+        - "{{ vsphere_dc_name }}"
+        - "{{ dvswitch_name }}"
+
+    - name: Dvswitch portgroup
+      local_action:
+        module: vmware_dvs_portgroup
+        hostname: "{{ vsphere_hostname }}"
+        username: "{{ vsphere_username}}"
+        password: "{{ vsphere_password }}"
+        portgroup_name: "{{ item }}"
+        switch_name: "{{ dvswitch_name }}"
+        vlan_id: 0
+        num_ports: 14
+        portgroup_type: earlyBinding
+        state: present
+        validate_certs: False
+      with_items:
+        - "{{ dvswitch_portgroup }}"
+
+    - name: Add Host to dvswitch
+      local_action:
+        module: vmware_dvs_host
+        hostname: "{{ vsphere_hostname }}"
+        username: "{{ vsphere_username}}"
+        password: "{{ vsphere_password }}"
+        esxi_hostname: "{{ esxi_hostname }}"
+        switch_name: "{{ dvswitch_name }}"
+        vmnics:
+            - vmnic2
+            - vmnic3
+        state: present
+        validate_certs: False
 
 - hosts: 192.168.1.55
   vars:
@@ -56,9 +95,7 @@
         - vswitch_number: vSwitch0
           vswitch_mtu: 1500
           vswitch_vmnics: vmnic1
-        - vswitch_number: vSwitch2
-          vswitch_vmnics: vmnic3
-          vswitch_mtu: 1500
+
   tasks:
 
     - name: Add VMNIC
