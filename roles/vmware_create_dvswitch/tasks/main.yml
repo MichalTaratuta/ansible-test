@@ -1,22 +1,18 @@
 ---
-  - name: "Create dvswitch: {{ item.0 }}"
+  - name: "Create dvswitch: "
     local_action:
       module: vmware_dvswitch
       hostname: "{{ vsphere_hostname }}"
       username: "{{ vsphere_username}}"
       password: "{{ vsphere_password }}"
-      datacenter_name: "{{ item.1 }}"
-      switch_name: "{{ item.0 }}"
-      mtu: "{{ item.2 }}"                 # Default: 1500
-      uplink_quantity: "{{ item.3 }}"
-      discovery_proto: "{{ item.4 }}"     # Default: cdp
-      discovery_operation: "{{ item.5 }}" # Default: listen
+      datacenter_name: "{{ item.0 }}"
+      switch_name: "{{ item.1 }}"
+      mtu: "{{ dvswitch_mtu }}"                 # Default: 1500
+      uplink_quantity: "{{ dvswitch_uplink_quantity }}"  # Default: 2
+      discovery_proto: "{{ dvswitch_discovery_proto }}"     # Although the module require it, the default for vCenter is CDP thus set as Default: cdp
+      discovery_operation: "{{ dvswitch_discovery_operation }}" # Although the module require it, the default for vCenter is Listen thus set as Default: listen
       state: present
       validate_certs: False
-      with_nested:
-        - "{{ dvswitch_name }}"
-        - "{{ vsphere_dc_name }}"
-        - "{{ dvswitch_mtu }}"
-        - "{{ dvswitch_uplink_quantity }}"
-        - "{{ dvswitch_discovery_proto }}"
-        - "{{ dvswitch_discovery_operation }}"
+    with_nested:
+      - "{{ vsphere_dc_name }}"
+      - "{{ dvswitch_name }}"

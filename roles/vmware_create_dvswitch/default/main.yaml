@@ -6,6 +6,6 @@ vsphere_password: []
 dvswitch_name: []
 vsphere_dc_name: []
 dvswitch_mtu: 1500
-dvswitch_uplink_quantity: []
+dvswitch_uplink_quantity: 2
 dvswitch_discovery_proto: cdp 
 dvswitch_discovery_operation: listen
