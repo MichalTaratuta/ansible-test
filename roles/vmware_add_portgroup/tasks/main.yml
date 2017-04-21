@@ -10,8 +10,8 @@
       vlan_id: "{{ item.vswitch_vlan_id }}"
       validate_certs: False
       network_policy:
-        promiscuous_mode: "{{ item.vswitch_promiscuous_mode }}"
-        forged_transmits: "{{ item.vswitch_forged_transmits }}"
-        mac_changes: "{{ item.vswitch_mac_changes }}"
+        promiscuous_mode: "{{ item.vswitch_option_promiscuous_mode }}"
+        forged_transmits: "{{ item.vswitch_option_forged_transmits }}"
+        mac_changes: "{{ item.vswitch_option_mac_changes }}"
     with_items:
       - "{{esx_vswitch}}"
