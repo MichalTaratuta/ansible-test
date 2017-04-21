@@ -8,9 +8,11 @@
         - vswitch_number: vSwitch0
           vswitch_vmnics: vmnic0
           vswitch_mtu: 1500
+          vswitch_vlan: 0
         - vswitch_number: vSwitch2
           vswitch_vmnics: vmnic2
           vswitch_mtu: 1500
+          vswitch_vlan: 0
 
   roles:
     #- { role: vmware_create_dc, item: "{{ vsphere_dc_name }}" }
@@ -43,10 +45,12 @@
     - esx_vswitch:
         - vswitch_number: vSwitch0
           vswitch_mtu: 1500
+          vswitch_vlan: 0
           vswitch_vmnics: vmnic1
         - vswitch_number: vSwitch2
           vswitch_vmnics: vmnic3
           vswitch_mtu: 1500
+          vswitch_vlan: 0
   tasks:
 
     - name: Add VMNIC
@@ -64,9 +68,11 @@
         - vswitch_number: vSwitch0
           vswitch_vmnics: vmnic1
           vswitch_mtu: 1500
+          vswitch_vlan: 0
         - vswitch_number: vSwitch2
           vswitch_vmnics: vmnic3
           vswitch_mtu: 1500
+          vswitch_vlan: 0
 
   tasks:
     - name: Create Vmware Port Groups
@@ -77,7 +83,7 @@
         password: "{{ esxi_password }}"
         switch_name: "{{ item.vswitch_number }}"
         portgroup_name: "Portgroup {{ item.vswitch_number }}"  # Name of the Interface
-        vlan_id: 0
+        vlan_id: "{{ item.vswitch_vlan }}"
         validate_certs: False
         network_policy:
           promiscuous_mode: False
