@@ -1,0 +1,10 @@
+---
+dvswitch_conf:
+  - dvswitch_name: lab01vcc01
+    dvswitch_portgroups:
+      - dvswitch_portgroup_name: CSC_Heartbeat
+        dvswitch_vlan_id: 0
+        dvswitch_num_ports: 14
+      - dvswitch_portgroup_name: CSC_Management
+        dvswitch_vlan_id: 0
+        dvswitch_num_ports: 14
