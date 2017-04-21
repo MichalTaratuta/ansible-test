@@ -66,13 +66,21 @@
   vars:
     - esx_vswitch:
         - vswitch_number: vSwitch0
+          vswitch_portgroup_name: "portgroup_name vSwitch0"
           vswitch_vmnics: vmnic1
           vswitch_mtu: 1500
           vswitch_vlan: 0
+          vswitch_option_promiscuous_mode: False
+          vswitch_option_forged_transmits: False
+          vswitch_option_mac_changes: False
         - vswitch_number: vSwitch2
+          vswitch_portgroup_name: "portgroup_name vSwitch2"
           vswitch_vmnics: vmnic3
           vswitch_mtu: 1500
           vswitch_vlan: 0
+          vswitch_option_promiscuous_mode: False
+          vswitch_option_forged_transmits: False
+          vswitch_option_mac_changes: False
 
   tasks:
     - name: Create Vmware Port Groups
