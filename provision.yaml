@@ -48,15 +48,16 @@
         hostname: "{{ vsphere_hostname }}"
         username: "{{ vsphere_username}}"
         password: "{{ vsphere_password }}"
-        portgroup_name: "{{ item }}"
-        switch_name: "{{ dvswitch_name }}"
-        vlan_id: 0
-        num_ports: 14
-        portgroup_type: earlyBinding
+        portgroup_name: "{{ item.1.dvswitch_portgroup_name }}"
+        switch_name: "{{ item.0.dvswitch_name }}"
+        vlan_id: "{{ item.1.dvswitch_vlan_id }}"
+        num_ports: "{{ item.1.dvswitch_num_ports }}" # Default: 14
+        portgroup_type: earlyBinding # This is default in the vCenter it's called: Static Binding
         state: present
         validate_certs: False
-      with_items:
-        - "{{ dvswitch_portgroup }}"
+      with_subelements:
+        - "{{  dvswitch_conf }}"
+        - dvswitch_portgroups
 
     - name: Add Host to dvswitch
       local_action:
