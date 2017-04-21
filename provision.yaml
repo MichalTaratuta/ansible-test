@@ -7,8 +7,10 @@
     - esx_vswitch:
         - vswitch_number: vSwitch0
           vswitch_vmnics: vmnic0
+          vswitch_mtu: 1500
         - vswitch_number: vSwitch2
           vswitch_vmnics: vmnic2
+          vswitch_mtu: 1500
 
   roles:
     #- { role: vmware_create_dc, item: "{{ vsphere_dc_name }}" }
@@ -40,9 +42,11 @@
   vars:
     - esx_vswitch:
         - vswitch_number: vSwitch0
+          vswitch_mtu: 1500
           vswitch_vmnics: vmnic1
         - vswitch_number: vSwitch2
           vswitch_vmnics: vmnic3
+          vswitch_mtu: 1500
   tasks:
 
     - name: Add VMNIC
@@ -59,10 +63,10 @@
     - esx_vswitch:
         - vswitch_number: vSwitch0
           vswitch_vmnics: vmnic1
+          vswitch_mtu: 1500
         - vswitch_number: vSwitch2
           vswitch_vmnics: vmnic3
-      esx_portgroups:
-
+          vswitch_mtu: 1500
 
   tasks:
     - name: Create Vmware Port Groups
