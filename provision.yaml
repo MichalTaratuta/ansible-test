@@ -8,11 +8,9 @@
         - vswitch_number: vSwitch0
           vswitch_vmnics: vmnic0
           vswitch_mtu: 1500
-          vswitch_vlan: 0
         - vswitch_number: vSwitch2
           vswitch_vmnics: vmnic2
           vswitch_mtu: 1500
-          vswitch_vlan: 0
 
   roles:
     #- { role: vmware_create_dc, item: "{{ vsphere_dc_name }}" }
@@ -45,12 +43,10 @@
     - esx_vswitch:
         - vswitch_number: vSwitch0
           vswitch_mtu: 1500
-          vswitch_vlan: 0
           vswitch_vmnics: vmnic1
         - vswitch_number: vSwitch2
           vswitch_vmnics: vmnic3
           vswitch_mtu: 1500
-          vswitch_vlan: 0
   tasks:
 
     - name: Add VMNIC
@@ -69,7 +65,7 @@
           vswitch_portgroup_name: "portgroup_name vSwitch0"
           vswitch_vmnics: vmnic1
           vswitch_mtu: 1500
-          vswitch_vlan: 0
+          vswitch_vlan_id: 0
           vswitch_option_promiscuous_mode: False
           vswitch_option_forged_transmits: False
           vswitch_option_mac_changes: False
@@ -77,7 +73,7 @@
           vswitch_portgroup_name: "portgroup_name vSwitch2"
           vswitch_vmnics: vmnic3
           vswitch_mtu: 1500
-          vswitch_vlan: 0
+          vswitch_vlan_id: 0
           vswitch_option_promiscuous_mode: False
           vswitch_option_forged_transmits: False
           vswitch_option_mac_changes: False
@@ -91,7 +87,7 @@
         password: "{{ esxi_password }}"
         switch_name: "{{ item.vswitch_number }}"
         portgroup_name: "Portgroup {{ item.vswitch_number }}"  # Name of the Interface
-        vlan_id: "{{ item.vswitch_vlan }}"
+        vlan_id: "{{ item.vswitch_vlan_id }}"
         validate_certs: False
         network_policy:
           promiscuous_mode: False
