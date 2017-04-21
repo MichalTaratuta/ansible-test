@@ -22,6 +22,7 @@
     - vmware_add_vswitch
     - vmware_add_portgroup
     - vmware_create_dvswitch
+    - vmware_create_dvswitch_portgroup
 
   tasks:
     - name: "Add ESXi to vSphere"
@@ -41,23 +42,6 @@
         - "{{ esxi_hostname }}"
         - "{{ vsphere_dc_name }}"
         - "{{ vshpere_cluster_name }}"
-
-    - name: Dvswitch portgroup
-      local_action:
-        module: vmware_dvs_portgroup
-        hostname: "{{ vsphere_hostname }}"
-        username: "{{ vsphere_username}}"
-        password: "{{ vsphere_password }}"
-        portgroup_name: "{{ item.1.dvswitch_portgroup_name }}"
-        switch_name: "{{ item.0.dvswitch_name }}"
-        vlan_id: "{{ item.1.dvswitch_vlan_id }}"
-        num_ports: "{{ item.1.dvswitch_num_ports }}" # Default: 14
-        portgroup_type: earlyBinding # This is default in the vCenter it's called: Static Binding
-        state: present
-        validate_certs: False
-      with_subelements:
-        - "{{  dvswitch_conf }}"
-        - dvswitch_portgroups
 
     - name: Add Host to dvswitch
       local_action:
