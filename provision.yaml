@@ -21,6 +21,7 @@
     #- vmware_add_esxi
     - vmware_add_vswitch
     - vmware_add_portgroup
+    - vmware_create_dvswitch
 
   tasks:
     - name: "Add ESXi to vSphere"
@@ -40,24 +41,6 @@
         - "{{ esxi_hostname }}"
         - "{{ vsphere_dc_name }}"
         - "{{ vshpere_cluster_name }}"
-
-    - name: "Create dvswitch: "
-      local_action:
-        module: vmware_dvswitch
-        hostname: "{{ vsphere_hostname }}"
-        username: "{{ vsphere_username}}"
-        password: "{{ vsphere_password }}"
-        datacenter_name: "{{ item.0 }}"
-        switch_name: "{{ item.1 }}"
-        mtu: "{{ dvswitch_mtu }}"                 # Default: 1500
-        uplink_quantity: "{{ dvswitch_uplink_quantity }}"  # Default: 2
-        discovery_proto: "{{ dvswitch_discovery_proto }}"     # Although the module require it, the default for vCenter is CDP thus set as Default: cdp
-        discovery_operation: "{{ dvswitch_discovery_operation }}" # Although the module require it, the default for vCenter is Listen thus set as Default: listen
-        state: present
-        validate_certs: False
-      with_nested:
-        - "{{ vsphere_dc_name }}"
-        - "{{ dvswitch_name }}"
 
     - name: Dvswitch portgroup
       local_action:
