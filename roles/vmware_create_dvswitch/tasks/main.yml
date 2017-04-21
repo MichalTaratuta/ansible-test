@@ -6,7 +6,7 @@
       username: "{{ vsphere_username}}"
       password: "{{ vsphere_password }}"
       datacenter_name: "{{ item.0 }}"
-      switch_name: "{{ item.1 }}"
+      switch_name: "{{ item.1.dvswitch_name }}"
       mtu: "{{ dvswitch_mtu }}"                 # Default: 1500
       uplink_quantity: "{{ dvswitch_uplink_quantity }}"  # Default: 2
       discovery_proto: "{{ dvswitch_discovery_proto }}"     # Although the module require it, the default for vCenter is CDP thus set as Default: cdp
@@ -15,4 +15,4 @@
       validate_certs: False
     with_nested:
       - "{{ vsphere_dc_name }}"
-      - "{{ dvswitch_name }}"
+      - "{{ dvswitch_conf }}"

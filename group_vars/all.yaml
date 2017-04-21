@@ -19,10 +19,10 @@ esxi_password: !vault |
     63353035356239656661613236663963643735643430666664653732333931663731323431663737
     3135646638353334310a643639306665646466623034656336626565613862313764393533303037
     6166
-dvswitch_name: lab01vcc01
-dvswitch_portgroup:
-  - CSC_Heartbeat
-  - CSC_Management
+#dvswitch_name: lab01vcc01
+#dvswitch_portgroup:
+#  - CSC_Heartbeat
+#  - CSC_Management
 
 # List of ntp servers, HAS TO BE in HORIZONTAL format:
 esxi_ntp_servers: 0.vmware.pool.ntp.org, 1.vmware.pool.ntp.org, 2.vmware.pool.ntp.org
@@ -43,3 +43,12 @@ cluster_ha_setting:
   - ha: True
 cluster_drs_setting:
   - drs: True
+dvswitch_conf:
+  - dvswitch_name: lab01vcc01
+    dvswitch_portgroups:
+      - dvswitch_portgroup_name: CSC_Heartbeat
+        dvswitch_vlan_id: 0
+        dvswitch_num_ports: 14
+      - dvswitch_portgroup_name: CSC_Management
+        dvswitch_vlan_id: 0
+        dvswitch_num_ports: 14
