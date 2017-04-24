@@ -1,0 +1,8 @@
+---
+  # Configure Power Management
+  # This although this apperas be working fine, vCenter doesn't reflect the new setting unles restarted
+  # Ticket opened with vmware 17439099204
+  - name:  Set Power Management
+    command: govc host.option.set -dc "{{ vsphere_dc_name }}" -host "{{ item }}" Power.CpuPolicy "High Performance"
+    with_items:
+      - "{{ esxi_hosts }}"
