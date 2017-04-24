@@ -1,0 +1,16 @@
+---
+  - name: Add Host to dvswitch
+    local_action:
+      module: vmware_dvs_host
+      state: present
+      hostname: "{{ vsphere_hostname }}"
+      username: "{{ vsphere_username}}"
+      password: "{{ vsphere_password }}"
+      esxi_hostname: "{{ esxi_hostname }}"
+      switch_name: "{{ item.dvswitch_name }}"   
+      vmnics: "{{ dvswitch_esxi_vmnics }}"
+          - vmnic2
+          - vmnic3
+      validate_certs: False
+    with_items:
+      - "{{ dvswitch_conf }}"
