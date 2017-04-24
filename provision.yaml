@@ -50,12 +50,14 @@
         username: "{{ vsphere_username}}"
         password: "{{ vsphere_password }}"
         esxi_hostname: "{{ esxi_hostname }}"
-        switch_name: "{{ dvswitch_name }}"
+        switch_name: "{{ item.dvswitch_name }}"
         vmnics:
             - vmnic2
             - vmnic3
         state: present
         validate_certs: False
+      with_items:
+        - "{{ dvswitch_conf }}"
 
 - hosts: 192.168.1.55
   vars:
@@ -64,13 +66,5 @@
           vswitch_mtu: 1500
           vswitch_vmnics: vmnic1
 
-  tasks:
-
-    - name: Add VMNIC
-      shell: "esxcli network vswitch standard uplink add --uplink-name={{ item.vswitch_vmnics }} --vswitch-name={{ item.vswitch_number }} > /.created.{{ item.vswitch_number }}.{{ item.vswitch_vmnics }}"
-      args:
-        chdir: /
-        creates: ".created.{{ item.vswitch_number }}.{{ item.vswitch_vmnics }}"
-      ignore_errors: yes
-      with_items:
-        - "{{esx_vswitch}}"
+  roles:
+    - vmware_add_vswitch_workaround
