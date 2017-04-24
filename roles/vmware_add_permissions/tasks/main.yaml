@@ -1,0 +1,7 @@
+---
+  # Configure Permissions settings
+  # https://<vCenter_server>/mob/?moid=AuthorizationManager&doPath=roleList
+  - name:  Add Permissions
+    command: govc permissions.set -u "{{ vsphere_hostname }}" -principal "{{ item.permissions_group }}" -role {{ item.permissions_role }} -propagate=True
+    with_nested:
+      - "{{ vmware_permissions }}"

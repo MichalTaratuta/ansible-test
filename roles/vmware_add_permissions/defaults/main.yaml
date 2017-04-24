@@ -1,0 +1,4 @@
+---
+vmware_permissions:
+  - permissions_group: oc\ansible
+    permissions_role: Admin

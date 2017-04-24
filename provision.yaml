@@ -14,6 +14,7 @@
     - vmware_add_esxi_dvswitch
     - vmware_ntp_configuration
     - vmware_advanced_settings
+    - vmware_add_permissions
 
 # In this Block we are adding the second NIC to the vswitch since it's not possible to do with current "vmware_vswitch" module
 - hosts: 192.168.1.55
