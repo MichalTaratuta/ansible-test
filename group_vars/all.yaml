@@ -52,3 +52,12 @@ dvswitch_conf:
       - dvswitch_portgroup_name: CSC_Management
         dvswitch_vlan_id: 0
         dvswitch_num_ports: 14
+esx_vswitch:
+  - vswitch_number: vSwitch0
+    vswitch_portgroup_name: "portgroup_name vSwitch0"
+    vswitch_vmnics: vmnic0
+    vswitch_mtu: 1500
+    vswitch_vlan_id: 0
+    vswitch_option_promiscuous_mode: False
+    vswitch_option_forged_transmits: False
+    vswitch_option_mac_changes: False
