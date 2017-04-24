@@ -8,7 +8,7 @@
       password: "{{ vsphere_password }}"
       esxi_hostname: "{{ esxi_hostname }}"
       switch_name: "{{ item.dvswitch_name }}"   
-      vmnics: "{{ dvswitch_esxi_vmnics }}"
+      vmnics:
           - vmnic2
           - vmnic3
       validate_certs: False
