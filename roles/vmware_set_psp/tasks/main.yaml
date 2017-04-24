@@ -1,0 +1,17 @@
+---
+# Get PSP Setting and export it as viariable psp_value
+# This taks will always show as chnaged
+  - name: Get PSP Configuration value
+    shell: esxcli storage nmp satp list | grep -e '^VMW_SATP_ALUA\b' | awk '{print $2}'
+    register: psp_value
+
+  - name: Change VMW_SATP_ALUA to VMW_PSP_RR
+    command: esxcli storage nmp satp set --default-psp=VMW_PSP_RR --satp=VMW_SATP_ALUA
+    when: psp_value.stdout != "VMW_PSP_RR"
+    register: change_psp
+    ignore_errors: True
+
+#!! This will reboot the esxi host, if the PSP value has been changed
+  - name: Esxi host R_E_S_T_A_R_T
+    command: reboot
+    when: psp_value.stdout != "VMW_PSP_RR" and (change_psp|succeeded)

@@ -27,3 +27,5 @@
 
   roles:
     - vmware_add_vswitch_workaround
+    # This role restarts server
+    - vmware_set_psp
