@@ -4,5 +4,6 @@
   # Ticket opened with vmware 17439099204
   - name:  Set Power Management
     command: govc host.option.set -dc "{{ vsphere_dc_name }}" -host "{{ item }}" Power.CpuPolicy "High Performance"
+    ignore_errors: True
     with_items:
       - "{{ esxi_hosts }}"
