@@ -1,0 +1,9 @@
+---
+esxi_hosts: []
+esxi_advanced_settings:
+  - option: Disk.QFullSampleSize
+    value: 32
+  - option: Disk.QFullThreshold
+    value: 4
+  - option: Disk.MaxLUN
+    value: 255

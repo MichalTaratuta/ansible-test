@@ -1,0 +1,7 @@
+---
+  # Iterates over nested loop for each Host apply Option: Value:
+  - name: Edit Advanced Settings
+    command: govc host.option.set -dc "{{ vsphere_dc_name }}" -host "{{ item.0 }}" "{{ item.1.option }}" "{{ item.1.value }}"
+    with_nested:
+      - "{{ esxi_hosts }}"
+      - "{{ esxi_advanced_settings }}"

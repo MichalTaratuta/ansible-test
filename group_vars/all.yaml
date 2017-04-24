@@ -25,13 +25,6 @@ esxi_hosts:
   - 192.168.1.56
   - 192.168.1.55
 # List for GOVC Nested loop
-esxi_advanced_settings:
-  - option: Disk.QFullSampleSize
-    value: 32
-  - option: Disk.QFullThreshold
-    value: 4
-  - option: Disk.MaxLUN
-    value: 255
 cluster_ha_setting:
   - ha: True
 cluster_drs_setting:
