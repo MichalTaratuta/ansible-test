@@ -1,18 +1,18 @@
 ---
-  - name: "Add ESXi: {{ item.0 }} to vSphere"
-    local_action:
-      module: vmware_host
-      state: present
-      hostname: "{{ vsphere_hostname }}"
-      username: "{{ vsphere_username}}"
-      password: "{{ vsphere_password }}"
-      datacenter_name: "{{ item.1 }}"
-      cluster_name: "{{ item.2 }}"
-      esxi_hostname: "{{ item.0 }}"
-      esxi_username: "{{ esxi_username }}"
-      esxi_password: "{{ esxi_password }}"
-      validate_certs: False
-      with_nested:
-        - "{{ esxi_hostname }}"
-        - "{{ vsphere_dc_name }}"
-        - "{{ vshpere_cluster_name }}"
+- name: "Add ESXi to vSphere"
+  local_action:
+    module: vmware_host
+    state: present
+    hostname: "{{ vsphere_hostname }}"
+    username: "{{ vsphere_username}}"
+    password: "{{ vsphere_password }}"
+    datacenter_name: "{{ item.1 }}"
+    cluster_name: "{{ item.2 }}"
+    esxi_hostname: "{{ item.0 }}"
+    esxi_username: "{{ esxi_username }}"
+    esxi_password: "{{ esxi_password }}"
+    validate_certs: False
+  with_nested:
+    - "{{ esxi_hostname }}"
+    - "{{ vsphere_dc_name }}"
+    - "{{ vshpere_cluster_name }}"
