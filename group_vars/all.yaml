@@ -20,9 +20,6 @@ esxi_password: !vault |
     3135646638353334310a643639306665646466623034656336626565613862313764393533303037
     6166
 
-# List of ntp servers, HAS TO BE in HORIZONTAL format:
-esxi_ntp_servers: 0.vmware.pool.ntp.org, 1.vmware.pool.ntp.org, 2.vmware.pool.ntp.org
-
 # List for govc loop:
 esxi_hosts:
   - 192.168.1.56

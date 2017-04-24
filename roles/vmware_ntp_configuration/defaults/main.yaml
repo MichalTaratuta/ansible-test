@@ -1,0 +1,5 @@
+---
+# List of ntp servers, HAS TO BE in HORIZONTAL format:
+esxi_ntp_servers: 0.vmware.pool.ntp.org, 1.vmware.pool.ntp.org, 2.vmware.pool.ntp.org
+esxi_hosts: []
+vsphere_dc_name: []

@@ -1,0 +1,6 @@
+---
+  # Interact with Shell localy for GOVC
+  - name: Edit NTP configuration for ESXi host
+    command: govc host.date.change -dc "{{ vsphere_dc_name }}" -host "{{ item }}" -server "{{ esxi_ntp_servers }}"
+    with_items:
+      - "{{ esxi_hosts }}"
