@@ -6,10 +6,17 @@
     register: psp_value
 
   - name: Change VMW_SATP_ALUA to VMW_PSP_RR
-    command: esxcli storage nmp satp set --default-psp=VMW_PSP_RR --satp=VMW_SATP_ALUA
+    shell: esxcli storage nmp satp set --default-psp=VMW_PSP_RR --satp=VMW_SATP_ALUA | tee .psp.conf.setting
     when: psp_value.stdout != "VMW_PSP_RR"
     register: change_psp
-    ignore_errors: True
+    changed_when: >
+      change_psp.stdout == "Default PSP for VMW_SATP_ALUA is now VMW_PSP_RR"
+    failed_when: >
+      change_psp.stdout != "Default PSP for VMW_SATP_ALUA is now VMW_PSP_RR"
+    args:
+      creates: .psp.conf.setting
+      chdir: /
+
 
 #!! This will reboot the esxi host, if the PSP value has been changed
   - name: Esxi host R_E_S_T_A_R_T
