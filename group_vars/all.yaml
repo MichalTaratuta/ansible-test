@@ -10,7 +10,9 @@ vsphere_password: !vault |
     3034
 vsphere_dc_name: Ansible_DC_role
 vshpere_cluster_name: Ansible_Cluster_role
-esxi_hostname: 192.168.1.55
+esxi_hostname:
+  - 192.168.1.55
+  - 192.168.1.56
 esxi_username: root
 esxi_password: !vault |
     $ANSIBLE_VAULT;1.1;AES256

@@ -18,7 +18,9 @@
     - vmware_power_management
 
 # In this Block we are adding the second NIC to the vswitch since it's not possible to do with current "vmware_vswitch" module
-- hosts: 192.168.1.55
+- hosts:
+    - 192.168.1.55
+    - 192.168.1.56
   vars:
     - esx_vswitch:
         - vswitch_number: vSwitch0
