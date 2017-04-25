@@ -3,12 +3,13 @@
     local_action:
       module: vmware_vswitch
       state: present
-      hostname: "{{ esxi_hostname }}"
+      hostname: "{{ item.1 }}"
       username: "{{ esxi_username }}"
       password: "{{ esxi_password }}"
-      switch_name: "{{ item.vswitch_number}}"
-      nic_name: "{{ item.vswitch_vmnics }}"
-      mtu: "{{ item.vswitch_mtu }}"   #Default:1500
+      switch_name: "{{ item.0.vswitch_number}}"
+      nic_name: "{{ item.0.vswitch_vmnics }}"
+      mtu: "{{ item.0.vswitch_mtu }}"   #Default:1500
       validate_certs: False
-    with_items:
+    with_nested:
       - "{{esx_vswitch}}"
+      - "{{ esxi_hostname }}"

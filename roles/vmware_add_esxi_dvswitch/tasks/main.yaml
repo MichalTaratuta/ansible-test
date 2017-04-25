@@ -6,11 +6,12 @@
       hostname: "{{ vsphere_hostname }}"
       username: "{{ vsphere_username}}"
       password: "{{ vsphere_password }}"
-      esxi_hostname: "{{ esxi_hostname }}"
-      switch_name: "{{ item.dvswitch_name }}"   
+      esxi_hostname: "{{ item.1 }}"
+      switch_name: "{{ item.0.dvswitch_name }}"
       vmnics:
           - vmnic2
           - vmnic3
       validate_certs: False
-    with_items:
+    with_nested:
       - "{{ dvswitch_conf }}"
+      - "{{ esxi_hostname }}"
