@@ -1,0 +1,10 @@
+---
+  - name: Restart Vmware hostd
+    service:
+      name: hostd
+      state: restarted
+
+  - name: Restart Vmware vpxa
+    service:
+      name: vpxa
+      state: restarted
