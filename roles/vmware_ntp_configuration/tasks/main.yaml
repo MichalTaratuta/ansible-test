@@ -1,7 +1,25 @@
 ---
   # Interact with Shell localy for GOVC
   - name: Edit NTP configuration for ESXi host
-    command: govc host.date.change -dc "{{ vsphere_dc_name }}" -host "{{ item }}" -server "{{ esxi_ntp_servers }}"
-    ignore_errors: True
+  #  command: govc host.date.change -dc "{{ vsphere_dc_name }}" -host "{{ item }}" -server "{{ esxi_ntp_servers }}"
+  #  ignore_errors: True
+  #  with_items:
+  #    - "{{ esxi_hosts }}"
+
+  # Remove the default "server 0.pool.ntp.org" in the ntp.conf
+    replace:
+      path: /etc/ntp.conf
+      regexp: 'server\b 0\.pool\.ntp\.org'
+      backup: yes
+
+
+    lineinfile:
+      path: /etc/ntp.conf
+      insertafter: 'restrict\b 127\.0\.0\.1'
+      #regex: 'server\b 0\.pool\.ntp\.org'
+      state: present
+      #backrefs: yes
+      backup: yes
+      line: "server {{ item }}"
     with_items:
-      - "{{ esxi_hosts }}"
+      - "{{ esxi_ntp_servers }}"

@@ -12,7 +12,6 @@
     - vmware_create_dvswitch
     - vmware_create_dvswitch_portgroup
     - vmware_add_esxi_dvswitch
-    - vmware_ntp_configuration
     - vmware_advanced_settings
     - vmware_add_permissions
     - vmware_power_management
@@ -31,3 +30,4 @@
     - vmware_add_vswitch_workaround
     # This role restarts server
     - vmware_set_psp
+    - vmware_ntp_configuration
